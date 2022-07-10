@@ -4,8 +4,8 @@ import logging
 from logging.config import fileConfig
 
 from flask import current_app
-from src.football_competition.models.Team import Team
-from src.football_competition.models.Match import Match
+from src.government_grant.models.FamilyMember import FamilyMember
+from src.government_grant.models.Household import Household
 
 from alembic import context
 
