@@ -148,15 +148,16 @@ class ApiController():
     def listQualifiedHouseholds():
         households = Household.query.all()
         result = {
-            "student_encouragement_bonus": [],
-            "multigeneration_scheme": [],
-            "elder_bonus": [],
-            "baby_sunshine_grant ": [],
-            "yolo_gst_grant": []
+            "student_encouragement_bonus": {},
+            "multigeneration_scheme": {},
+            "elder_bonus": {},
+            "baby_sunshine_grant": {},
+            "yolo_gst_grant": {}
         }
         try:
             for household in households:
-                household.getEligibleGrants(result)
+                if household.family_members != []:
+                    household.getEligibleGrants(result)
 
             return jsonify({
                     "data": result

@@ -33,3 +33,10 @@ class FamilyMember(db.Model):
         today = date.today()
         age = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
         return age
+    
+    def getAgeByMonth(self):
+        today = date.today()
+        c_year = int(today.year)
+        c_month = int(today.month)
+        age_months= (c_year - self.dob.year) * 12 +  (c_month - self.dob.month)
+        return age_months
