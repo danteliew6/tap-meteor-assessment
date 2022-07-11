@@ -14,7 +14,7 @@ Example: https://tap-meteor-assessment.herokuapp.com/api/get-all-households
 ```
 2. As Heroku tends to switch off applications that are not in use frequently, please contact me through telegram(@danteliew6) if the above link does not work so that I can reboot the deployed application.
 3. Postman collection can be found in this repository under "TAP Meteor Assessment.postman_collection.json". Please refer to it for the relevant endpoints and more information on how the APIs work.
-4. Unit Tests can be found under the "tests" folder. To setup unit tests, please follow the guide [here](##how-to-set-up-unit-tests).
+4. Unit Tests can be found under the "tests" folder. To setup unit tests, please follow the guide [here](#how-to-set-up-unit-tests).
 
 ## How to Set Up
 ### 1. After cloning repository, navigate to 'config.py' and edit the database configuration code line below
