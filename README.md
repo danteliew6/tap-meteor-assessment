@@ -109,5 +109,5 @@ python -m unittest
 ```
 <img width="545" alt="image" src="https://user-images.githubusercontent.com/61372973/178247149-007734a2-c53b-44f7-a030-850e61695908.png">
 
-Alternatively, you may open Visual Studio Code and run the unit tests.
+Alternatively, you may open Visual Studio Code and run the unit tests using the unittest extension.
 
