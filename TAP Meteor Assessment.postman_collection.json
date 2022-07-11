@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "98f292ad-8ef3-459a-ab04-e65d587c9b04",
+		"name": "TAP Meteor Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Household",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"household_type\": \"HDB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/create-household",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"create-household"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Family Member to Household",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"dante\",\r\n    \"gender\" : \"male\",\r\n    \"marital_status\" : \"single\",\r\n    \"spouse\": null,\r\n    \"occupation_type\" : \"Student\",\r\n    \"annual_income\" : 0,\r\n    \"dob\" : \"09/07/1997\",\r\n    \"household_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/add-family-member",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"add-family-member"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Households",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/get-all-households",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"get-all-households"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Household",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/get-household?household_id=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"get-household"
+					],
+					"query": [
+						{
+							"key": "household_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Qualified Households",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/list-qualified-households",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"list-qualified-households"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
