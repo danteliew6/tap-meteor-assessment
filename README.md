@@ -60,7 +60,7 @@ Example:
 ## Notes
 1. The application instance is hosted on heroku while the database is an AWS RDS MySQL database. Tech stack used for this application is Python Flask. Deployed application is in this link: https://tap-meteor-assessment.herokuapp.com/. To access API endpoints, please use the url pattern below for reference.
 ```
-https://tap-meteor-assessment.herokuapp.com/api/<API URL>
+https://tap-meteor-assessment.herokuapp.com/api/<API Route>
 
 Example: https://tap-meteor-assessment.herokuapp.com/api/get-all-households
 ```
