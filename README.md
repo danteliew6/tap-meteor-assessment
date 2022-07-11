@@ -3,7 +3,59 @@
 
 
 ## Assumptions
-1. 
+1. Multiple households of the same type can be added in the application
+2. A unique person can only belong to one household
+3. household_id is the primary key for households and is used to search for family members under a household
+4. For the API listing all qualified households for each grant, households and family members can be qualified for multiple grants with no limits (e.g qualify for elder bonus + yolo gst grant).
+5. For the API listing all qualified households for each grant, the following convention is to show all current grants. Within each grant is the qualified households and within each household contains the relevant qualified members. An example is shown below.
+```
+{
+    "data": {
+        "baby_sunshine_grant": {<household_id>: [<list of qualified family members' details>]},
+        "elder_bonus":{<household_id>: [<list of qualified family members' details>]},
+        "multigeneration_scheme": {<household_id>: [<list of qualified family members' details>]},
+        "student_encouragement_bonus": {<household_id>: [<list of qualified family members' details>]},
+        "yolo_gst_grant": {<household_id>: [<list of qualified family members' details>]}
+    }
+}
+```
+Example:
+```
+{
+    "data": {
+        "baby_sunshine_grant": {
+            "1": [
+                {
+                    "annual_income": 0.0,
+                    "dob": "Wed, 09 Jul 1997 00:00:00 GMT",
+                    "gender": "male",
+                    "household_id": 1,
+                    "marital_status": "single",
+                    "name": "dante1",
+                    "occupation_type": "student",
+                    "spouse": null
+                }
+            ],
+            "2": [
+                {
+                    "annual_income": 0.0,
+                    "dob": "Wed, 09 Jul 1997 00:00:00 GMT",
+                    "gender": "male",
+                    "household_id": 1,
+                    "marital_status": "single",
+                    "name": "dante2",
+                    "occupation_type": "student",
+                    "spouse": null
+                }
+            ]
+        },
+        "elder_bonus": {},
+        "multigeneration_scheme": {},
+        "student_encouragement_bonus": {},
+        "yolo_gst_grant": {}
+    }
+}
+```
 
 ## Notes
 1. The application instance is hosted on heroku while the database is an AWS RDS MySQL database. Tech stack used for this application is Python Flask. Deployed application is in this link: https://tap-meteor-assessment.herokuapp.com/. To access API endpoints, please use the url pattern below for reference.
@@ -51,9 +103,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://<DB_USERNAME>:<D
 
 ### 2. Create the Test DB Schema inside your MySQL DB.
 
-### 3. Open a terminal and navigate into the tests directory and enter the line below to run the unit tests
+### 3. Open a terminal in the home directory and enter the line below to run the unit tests
 ```
 python -m unittest
 ```
+<img width="545" alt="image" src="https://user-images.githubusercontent.com/61372973/178247149-007734a2-c53b-44f7-a030-850e61695908.png">
+
 Alternatively, you may open Visual Studio Code and run the unit tests.
 
