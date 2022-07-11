@@ -8,11 +8,24 @@ from src.government_grant import db
 from datetime import datetime
 import json
 import functools
+from jsonschema import validate
+
 
 class ApiController():
     def createHousehold():
+        schema = {
+            "type" : "object",
+            "properties" : {
+                "household_type" : {
+                    "type" : "string",
+                    "enum": ["HDB", "Condominium", "Landed"]
+                    }
+            },
+            "required": ["household_type"]
+        }
         try:
             data = request.get_json()
+            validate(data, schema=schema)
             household = Household(household_type = data['household_type'])
             db.session.add(household)
             db.session.commit()
@@ -27,146 +40,128 @@ class ApiController():
             }), 400
     
     def addFamilyMember():
-        pass
+        schema = {
+            "type" : "object",
+            "properties" : {
+                "name": {
+                    "type": "string"
+                    },
+                "gender": {
+                    "type": "string"
+                    },
+                "marital_status" : {
+                    "type": "string"
+                    },
+                "spouse" : {
+                    "type": ["string", 'null']
+                    },
+                "occupation_type" : {
+                    "type": "string",
+                    "enum": ["Unemployed", "Student", "Employed"]
+                    },
+                "annual_income" : {
+                    "type" : ["integer", "string"]
+                    },
+                "dob" : {
+                    "type" : "string",
+                    "format": "date-time"
+                    },
+                "household_id": {
+                    "type": "integer"
+                    }
+            },
+            "required": ["household_id", "name", "dob", "annual_income", "occupation_type", "marital_status", "gender", "spouse"]
+        }
+        try:
+            data = request.get_json()
+            validate(data, schema=schema)
+            dob = datetime.strptime(data['dob'], '%d/%m/%Y').date()
+            family_member = FamilyMember(
+                name = data['name'],
+                gender = data['gender'].lower(),
+                marital_status  = data['marital_status'].lower(),
+                spouse = data['spouse'],
+                occupation_type  = data['occupation_type'].lower(),
+                annual_income  = data['annual_income'],
+                dob  = dob,
+                household_id  = data['household_id']
+            )
+            db.session.add(family_member)
+            db.session.commit()
+            return jsonify({
+                "data": {
+                    "family_member": family_member.to_dict()
+                }
+            }), 201
+        except Exception as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
     
     def getAllHouseholds():
-        pass
+        try:
+            households = Household.query.all()
+            households_and_families = []
+            for household in households:
+                household_details = household.to_dict()
+                family = []
+                for family_members in household.family_members:
+                    family.append(family_members.to_dict())
+                household_details['family_members'] = family
+                households_and_families.append(household_details)
+                
+            return jsonify({
+                "data": {
+                    "households": households_and_families
+                }
+            }), 200
+        except Exception as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
     
     def getHousehold():
-        args = request.args
-        household_id = args['household_id']
-        pass
+        try:
+            args = request.args
+            household_id = args['household_id']
+            household = Household.query.filter(Household.household_id == household_id).first()
+            if household == None:
+                raise Exception("Household not found")
+            
+            household_details = household.to_dict()
+            family = []
+            for family_members in household.family_members:
+                    family.append(family_members.to_dict())
+            household_details['family_members'] = family
+            
+            return jsonify({
+                "data": {
+                    "household": household_details
+                }
+            }), 200
+        except Exception as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
+    
     
     def listQualifiedHouseholds():
-        pass
-    # def addTeams():
-        # try:
-        #     data = request.get_json()
-        #     teams = data['teams']
-        #     for team in teams:
-        #         if team == '':
-        #             continue
-        #         team = team.split()
-        #         team_name = team[0]
-        #         registration_date = datetime.strptime(team[1], '%d/%m')
-        #         registration_date = registration_date.replace(year=datetime.today().year)
-        #         group = team[2]
-        #         team_obj = Team(team_name = team_name, registration_date = registration_date, group = group) 
-        #         db.session.add(team_obj)
-        #         db.session.flush()
-            
-        #     db.session.commit()
-        #     return jsonify({
-        #         "data": {
-        #             "teams": [team for team in teams]
-        #         }
-        #     }), 201
-        # except Exception as e:
-        #     return jsonify({
-        #         "message": str(e)
-        #     }), 400
+        households = Household.query.all()
+        result = {
+            "student_encouragement_bonus": [],
+            "multigeneration_scheme": [],
+            "elder_bonus": [],
+            "baby_sunshine_grant ": [],
+            "yolo_gst_grant": []
+        }
+        try:
+            for household in households:
+                household.getEligibleGrants(result)
 
-    # def addMatches():
-    #     try:
-    #         data = request.get_json()
-    #         matches = data['matches']
-    #         for match in matches:
-    #             if match == '':
-    #                 continue
-    #             match = match.split()
-    #             sorted_team_names = [match[0], match[1]]
-    #             sorted_team_names.sort()
-    #             match_obj = Match(team = sorted_team_names[0], opponent = sorted_team_names[1], team_goals = match[2], opponent_goals = match[3]) 
-    #             team = Team.query.filter(Team.team_name == match_obj.team).first()
-    #             opponent = Team.query.filter(Team.team_name == match_obj.opponent).first()
-    #             if team == None or opponent == None:
-    #                 raise Exception("Either one or both teams do not exist")
-                
-    #             team.total_goals += int(match[2])
-    #             opponent.total_goals += int(match[3])
-                
-    #             if team.group != opponent.group:
-    #                 raise Exception("both teams are not in the same group")
-                
-    #             if int(match[2]) > int(match[3]):
-    #                 team.current_points += 3
-    #                 team.wins += 1
-    #                 opponent.losses += 1
-    #             elif int(match[2]) == int(match[3]):
-    #                 team.current_points += 1
-    #                 team.draws += 1
-    #                 opponent.current_points += 1
-    #                 opponent.draws += 1
-    #             else:
-    #                 opponent.current_points += 3
-    #                 opponent.wins += 1
-    #                 team.losses += 1
-                    
-    #             db.session.add(match_obj)
-    #             db.session.flush()
-    #         db.session.commit()
-    #         return jsonify({
-    #             "data": {
-    #                 "matches": [match for match in matches]
-    #             }
-    #         }), 201
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         return jsonify({
-    #             "message": str(e)
-    #         }), 400
-
-        
-    # def getTeamRankings():
-    #     def compare(teamA, teamB):
-    #         if teamA.current_points != teamB.current_points:
-    #             return teamB.current_points - teamA.current_points
-            
-    #         if teamA.total_goals != teamB.total_goals:
-    #             return teamB.total_goals - teamA.total_goals
-            
-    #         teamA_points = teamA.wins * 5 + teamA.draws * 3 + teamA.losses
-    #         teamB_points = teamB.wins * 5 + teamB.draws * 3 + teamB.losses
-    #         if teamA_points != teamB_points:
-    #             return teamB_points - teamA_points
-            
-    #         if teamA.registration_date.date() > teamB.registration_date.date():
-    #             return 1
-    #         elif teamA.registration_date.date() < teamB.registration_date.date():
-    #             return -1
-            
-    #         return 0
-        
-    #     try:
-    #         teams = Team.query.order_by(Team.group.asc()).all()
-    #         group_1 = teams[:6]
-    #         group_1 = sorted(group_1, key=functools.cmp_to_key(compare))
-    #         group_2 = teams[6:]
-    #         group_2 = sorted(group_2, key=functools.cmp_to_key(compare))
-    #         return jsonify({
-    #             "data": {
-    #                 "group_1": [team.to_dict() for team  in group_1],
-    #                 "group_2": [team.to_dict() for team  in group_2]
-    #             }
-    #         }), 200
-    #     except Exception as e:
-    #         return jsonify({
-    #             "message": str(e)
-    #         }), 400
-            
-    # def deleteCompetitionData():
-    #     try:
-    #         match_rows_deleted = Match.query.delete()
-    #         team_rows_deleted = Team.query.delete()
-    #         db.session.commit()
-    #         return jsonify({
-    #             "data": {
-    #                 "match_rows_deleted": match_rows_deleted,
-    #                 "team_rows_deleted": team_rows_deleted
-    #             }
-    #         }), 200
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         return jsonify({
-    #             "message": str(e)
-    #         }), 400
+            return jsonify({
+                    "data": result
+                }), 200
+        except Exception as e:
+            return jsonify({
+                "message": str(e)
+            }), 400

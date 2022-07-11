@@ -1,4 +1,5 @@
 from src.government_grant import db
+from datetime import date
 
 
 class FamilyMember(db.Model):
@@ -11,6 +12,7 @@ class FamilyMember(db.Model):
     name = db.Column(db.String(50), primary_key = True)
     gender = db.Column(db.String(20))
     marital_status = db.Column(db.String(20))
+    spouse = db.Column(db.String(50), nullable=True)
     occupation_type = db.Column(db.String(20))
     annual_income = db.Column(db.Float(), default = 0)
     dob =  db.Column(db.Date(), default = 0)
@@ -26,3 +28,8 @@ class FamilyMember(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+    
+    def getAge(self):
+        today = date.today()
+        age = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
+        return age
