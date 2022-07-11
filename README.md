@@ -42,5 +42,18 @@ flask run
 ```
 
 ## How to Set Up Unit Tests
+### 1. Navigate into tests directory. In each test file, edit the following code line as shown below.
+```
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://<DB_USERNAME>:<DB_PASSWORD>@<DB_ENDPOINT>:3306/<TEST_DB_SCHEMA>'
 
+**Ensure test db schema is different from your actual db schema.
+```
+
+### 2. Create the Test DB Schema inside your MySQL DB.
+
+### 3. Open a terminal and navigate into the tests directory and enter the line below to run the unit tests
+```
+python -m unittest
+```
+Alternatively, you may open Visual Studio Code and run the unit tests.
 
