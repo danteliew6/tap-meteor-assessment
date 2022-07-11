@@ -102,6 +102,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://<DB_USERNAME>:<D
 ```
 
 ### 2. Create the Test DB Schema inside your MySQL DB.
+As flask does not automatically create a DB schema for you, please create the schema manually.
 
 ### 3. Open a terminal in the home directory and enter the line below to run the unit tests
 ```
