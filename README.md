@@ -1,6 +1,5 @@
 
-# Government Grant - TAP Meteor Assessment
-## Q2: Backend Technical Assessment
+# Government Grant - TAP Meteor Assessment (Question 2)
 
 ## Assumptions
 1. Multiple households of the same type can be added in the application
