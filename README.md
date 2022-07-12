@@ -68,7 +68,7 @@ https://tap-meteor-assessment.herokuapp.com/api/<API Route>
 Example: https://tap-meteor-assessment.herokuapp.com/api/get-all-households
 ```
 2. As Heroku tends to switch off applications that are not in use frequently, please contact me through telegram(@danteliew6) if the above link does not work so that I can reboot the deployed application.
-3. Postman collection can be found in this repository under "TAP Meteor Assessment.postman_collection.json". Please refer to it for the relevant endpoints and more information on how the APIs work.
+3. Postman collection can be found in this repository under "TAP Meteor Assessment.postman_collection.json". Please refer to it for the relevant endpoints and more information on how the APIs work. The standard request body for the REST APIs are in JSON format.
 4. Unit Tests can be found under the "tests" folder. To setup unit tests, please follow the guide [here](#how-to-set-up-unit-tests).
 
 ## How to Set Up
