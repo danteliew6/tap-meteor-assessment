@@ -11,11 +11,14 @@
 ```
 {
     "data": {
-        "baby_sunshine_grant": {<household_id>: [<list of qualified family members' details>]},
-        "elder_bonus":{<household_id>: [<list of qualified family members' details>]},
-        "multigeneration_scheme": {<household_id>: [<list of qualified family members' details>]},
-        "student_encouragement_bonus": {<household_id>: [<list of qualified family members' details>]},
-        "yolo_gst_grant": {<household_id>: [<list of qualified family members' details>]}
+        "baby_sunshine_grant": {
+                                <household_id 1>: [<list of qualified family members' details>],
+                                <household_id 2>: [<list of qualified family members' details>]
+                                },
+        "elder_bonus":{....},
+        "multigeneration_scheme": {...},
+        "student_encouragement_bonus": {...},
+        "yolo_gst_grant": {...}
     }
 }
 ```
