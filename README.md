@@ -4,7 +4,7 @@
 ## Assumptions
 1. Multiple households of the same type can be added in the application
 2. A unique person can only belong to one household
-3. household_id is the primary key for households and is used to search for family members under a household
+3. 'household_id' is the primary key for households and is used to search for family members under a household. 'name' is the primary key for family members
 4. For the API listing all qualified households for each grant, households and family members can be qualified for multiple grants with no limits (e.g qualify for elder bonus + yolo gst grant).
 5. For the API listing all qualified households for each grant, the following convention is to show all current grants. Within each grant is the qualified households and within each household contains the relevant qualified members. An example is shown below.
 ```
